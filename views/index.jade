@@ -1,0 +1,20 @@
+extends layout
+
+include mixin
+
+block content
+	h1 Hola, mi nombre es #{ username }
+
+	h2 y me gusta programar en los siguientes lenguajes:
+	
+	ul
+		li Javascript
+		li Objective-C
+
+	h2 Estos son algunos libros que he leido
+
+	- var books = [{name: 'Laravel 4',author: 'Taylor Otwell'},{name: 'Javascript',author: 'Bernard Cook'}];
+
+	ul
+		each book in books
+			+bookInfo(book)

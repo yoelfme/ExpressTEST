@@ -1,8 +1,17 @@
 {
   "name": "chatMEAN",
+  "author": "Yoel Monzon",
   "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
+    "body-parser": "*",
     "express": "~4.11.1",
-    "body-parser": "*"
+    "jade": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.3.6"
   }
 }
