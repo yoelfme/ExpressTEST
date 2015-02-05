@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 
+app.use(express.static(__dirname + 'public'));
+
 app.get('/',function(req,res) {
 	// res.send('Hola Express');
 	res.render('index', {
@@ -35,6 +37,45 @@ app.get('/users/:username',function(req, res) {
 app.post('/users',function(req, res) {
 	var username = req.body.username;
 	res.send('Hola ' + username);
+});
+
+// Get browser
+app.get('/browser',function(req, res) {
+	res.send(req.get('user-agent'));
+});
+
+// 403
+app.get('/not',function(req, res) {
+	res.send(403,'prohibido el acceso');
+});
+
+// JSON
+app.get('/json',function(req, res) {
+	res.json({
+		message: 'Hola'
+	});
+});
+
+// Image
+app.get('/image', function(req, res) {
+	res.type('image/png').send('Esto es una imagen');
+});
+
+// Format
+app.format('/format', function(req, res) {
+	res.format({
+		html: function(){
+			res.send('<h1>Hola</h1>');
+		},
+		json: function(){
+			res.json({
+				message: 'Hola'
+			});
+		},
+		text: function(){
+			res.send('Hola');
+		}
+	})
 });
 
 // With regular expresions
