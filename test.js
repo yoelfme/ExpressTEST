@@ -167,11 +167,10 @@ app.get('/getSession',function(req, res){
 });
 
 // Test modules
-var myHealthComponents = require('./modules/HealthComponent.js');
+var HealthComponent = require('./modules/HealthComponent.js');
+var myHealthComponent = new HealthComponent(10);
 
-console.log('Live now: ' + myHealthComponents.health);
-console.log('You were attacked, your health reduce to: ' + myHealthComponents.getHit(1))
-
+console.log('Your health is:' + myHealthComponent.health);
 
 server.listen(app.get('port'),function() {
 	console.log('Express server listening on port ' + app.get('port'));
