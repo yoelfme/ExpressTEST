@@ -167,8 +167,7 @@ app.get('/getSession',function(req, res){
 });
 
 // Test modules
-var HealthComponent = require('./modules/HealthComponent.js');
-var myHealthComponent = new HealthComponent(10);
+var myHealthComponent = require('./modules/HealthComponent.js')(10);
 
 console.log('Your health is:' + myHealthComponent.health);
 
