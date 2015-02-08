@@ -4,7 +4,8 @@ var express = require('express'),
 	app = express(),
 	server = http.createServer(app),
 	bodyParser = require('body-parser'),
-	cookieParser = require('cookie-parser');
+	cookieParser = require('cookie-parser'),
+	session = require('express-session');
 
 // Config params
 params.extend(app);
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 app.use(cookieParser());
+app.use(session({ secret: 'esto es secreto', cookie: { maxAge: 60000 }}))
 
 // Set public folder
 app.use(express.static(__dirname + '/public'));
@@ -143,14 +145,26 @@ app.get('/cookie/:name',function(req, res) {
 	res.send('<p> Vea el valor de la cookie <a href="/name">aqui</a> </p>');
 });
 
-app.get('/name', function(req, res) {
+app.get('/getCookie', function(req, res) {
 	res.send(req.cookies.name);
 });
 
-app.get('/reset-cookie', function(req, res, next) {
+app.get('/resetCookie', function(req, res, next) {
 	res.clearCookie('name');
 	next();
-})
+});
+
+// Test sessions
+app.get('/session/:name',function(req, res) {
+	req.session.name = req.params.name;
+
+	res
+		.send('<p>Vea el valor de esta sesion <a href="/getSession">aqui</a></p>')
+});
+
+app.get('/getSession',function(req, res){
+	res.send('Valor: ' + req.session.name);
+});
 
 server.listen(app.get('port'),function() {
 	console.log('Express server listening on port ' + app.get('port'));
