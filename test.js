@@ -166,6 +166,13 @@ app.get('/getSession',function(req, res){
 	res.send('Valor: ' + req.session.name);
 });
 
+// Test modules
+var myHealthComponents = require('./modules/HealthComponent.js');
+
+console.log('Live now: ' + myHealthComponents.health);
+console.log('You were attacked, your health reduce to: ' + myHealthComponents.getHit(1))
+
+
 server.listen(app.get('port'),function() {
 	console.log('Express server listening on port ' + app.get('port'));
 });
