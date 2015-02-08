@@ -2,7 +2,9 @@ var express = require('express'),
 	params = require('express-params'),
 	http = require('http'),
 	app = express(),
-	bodyParser = require('body-parser');
+	server = http.createServer(app),
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser');
 
 // Config params
 params.extend(app);
@@ -19,6 +21,7 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
+app.use(cookieParser());
 
 // Set public folder
 app.use(express.static(__dirname + '/public'));
@@ -134,6 +137,21 @@ app.get('/overload/:authorId',userAtIndex, function(req, res) {
 	res.json([req.author]);	
 })
 
-http.createServer(app).listen(app.get('port'),function() {
+// Test cookies
+app.get('/cookie/:name',function(req, res) {	
+	res.cookie('name',req.params.name, {expires: new Date(Date.now()+ 900000)})
+	res.send('<p> Vea el valor de la cookie <a href="/name">aqui</a> </p>');
+});
+
+app.get('/name', function(req, res) {
+	res.send(req.cookies.name);
+});
+
+app.get('/reset-cookie', function(req, res, next) {
+	res.clearCookie('name');
+	next();
+})
+
+server.listen(app.get('port'),function() {
 	console.log('Express server listening on port ' + app.get('port'));
 });
